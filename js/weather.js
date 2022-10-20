@@ -63,6 +63,33 @@ const dfs_xy_conv = (code, v1, v2) => {
   return rs;
 };
 
+const toBaseDateTime = (dateObj) => {
+  // date object를 받아서 날짜 8자리 시간 4자리 숫자 반환
+  return {
+    baseDate: `${dateObj.getFullYear()}${(dateObj.getMonth() + 1 + "").padStart(
+      2,
+      "0"
+    )}${(dateObj.getDate() + "").padStart(2, "0")}`,
+    baseTime: `${(dateObj.getHours() + "").padStart(2, "0")}${(
+      dateObj.getMinutes() + ""
+    ).padStart(2, "0")}`,
+  };
+};
+
+const getCurrentDate = () => {
+  const today = new Date();
+  const YEAR = today.getFullYear();
+  const MONTH = today.getMonth();
+  const DATE = today.getDate();
+  const HOUR = today.getHours();
+  const MINUTE = today.getMinutes();
+  if (MINUTE > 40) {
+    return today;
+  } else {
+    return new Date(YEAR, MONTH, DATE, HOUR - 1, 0);
+  }
+};
+
 const analyzeRawWeather = (resultArray) => {
   let REH = ""; // 상대습도
   let T1H = ""; // 기온
@@ -71,49 +98,22 @@ const analyzeRawWeather = (resultArray) => {
   resultArray.forEach((value) => {
     switch (value.category) {
       case "T1H":
-        T1H = value.obsrValue;
+        T1H = `${value.obsrValue} ℃`;
         break;
       case "REH":
-        REH = value.obsrValue;
+        REH = `${value.obsrValue} %`;
         break;
       case "WSD":
-        WSD = value.obsrValue;
+        WSD = `${value.obsrValue} m/s`;
         break;
       case "RN1":
-        RN1 = value.obsrValue;
+        RN1 = `${value.obsrValue} mm`;
         break;
       default:
         break;
     }
   });
   return { REH, T1H, WSD, RN1 };
-};
-
-const getDatetimeForKWS = () => {
-  const today = new Date();
-  const YEAR = today.getFullYear() + "";
-  const MONTH = (today.getMonth() + 1 + "").padStart(2, "0");
-  const DATE = (today.getDate() + "").padStart(2, "0");
-  const HOUR = (today.getHours() + "").padStart(2, "0");
-  const MINUTE = (today.getMinutes() + "").padStart(2, "0");
-  if (MINUTE > 40) {
-    return {
-      BASE_MONTH: `${YEAR}${MONTH}${DATE}`,
-      BAST_TIME: `${HOUR}${MINUTE}`,
-    };
-  } else if (HOUR !== "00") {
-    return {
-      BASE_MONTH: `${YEAR}${MONTH}${DATE}`,
-      BAST_TIME: `${(HOUR - 1 + "").padStart(2, "0")}${MINUTE}`,
-    };
-  } else if (DATE !== "00") {
-    return {
-      BASE_MONTH: `${YEAR}${MONTH}${(DATE - 1 + "").padStart(2, "0")}`,
-      BASE_TIME: `${(HOUR - 1 + "").padStart(2, "0")}${MINUTE}`,
-    };
-  } else {
-    return;
-  }
 };
 
 const onGeoSuccess = (geolocationPosition) => {
@@ -125,17 +125,20 @@ const onGeoSuccess = (geolocationPosition) => {
   const X_VALUE = rs.x;
   const Y_VALUE = rs.y;
 
-  const today = new Date();
-  const BASE_DATE = "20221020";
-  const BASE_TIME = "0600";
+  const today = getCurrentDate();
 
-  const url = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${SERVICE_KEY}&numOfRows=10&pageNo=1&dataType=JSON&base_date=${BASE_DATE}&base_time=${BASE_TIME}&nx=${X_VALUE}&ny=${Y_VALUE}`;
+  const base = toBaseDateTime(today);
+
+  const BASE_DATE = base.baseDate;
+  const BASE_TIME = base.baseTime;
+
+  const url = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&dataType=JSON&base_date=${BASE_DATE}&base_time=${BASE_TIME}&nx=${X_VALUE}&ny=${Y_VALUE}`;
 
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
       const result = data.response.body.items.item;
-      console.log(result);
+
       console.log(analyzeRawWeather(result));
     });
 
