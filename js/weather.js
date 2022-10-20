@@ -63,10 +63,34 @@ const dfs_xy_conv = (code, v1, v2) => {
   return rs;
 };
 
+const analyzeRawWeather = (resultArray) => {
+  let REH = ""; // 상대습도
+  let T1H = ""; // 기온
+  let WSD = ""; // 풍속
+  let RN1 = ""; // 1시간 강수량
+  resultArray.forEach((value) => {
+    switch (value.category) {
+      case "T1H":
+        T1H = value.obsrValue;
+        break;
+      case "REH":
+        REH = value.obsrValue;
+        break;
+      case "WSD":
+        WSD = value.obsrValue;
+        break;
+      case "RN1":
+        RN1 = value.obsrValue;
+        break;
+      default:
+        break;
+    }
+  });
+  return { REH, T1H, WSD, RN1 };
+};
+
 const onGeoSuccess = (geolocationPosition) => {
   const { latitude, longitude } = geolocationPosition.coords;
-  console.log(latitude);
-  console.log(longitude);
   const rs = dfs_xy_conv("toXY", latitude, longitude);
 
   const SERVICE_KEY =
@@ -74,8 +98,36 @@ const onGeoSuccess = (geolocationPosition) => {
   const X_VALUE = rs.x;
   const Y_VALUE = rs.y;
 
-  const BASE_DATE = "20221019";
-  const BASE_TIME = "1400";
+  const today = new Date();
+
+  const MINUTE = "00";
+  // 매시 데이터는 40분 이후에 조회가 가능하므로
+  // 안전하게 0~40분 이면 1시간 이전 데이터
+  // 0~40분이며 0시면 어제의 23시 데이터를 가져오기
+  const HOUR =
+    today.getMinutes() > 40
+      ? (today.getHours() + "").padStart(2, "0")
+      : today.getHours() == 0
+      ? "23"
+      : (today.getHours() - 1 + "").padStart(2, "0");
+
+  const DATE =
+    today.getMinutes() < 41 && today.getHours() == 0
+      ? (today.getDate() - 1 + "").padStart(2, "0")
+      : (today.getDate() + "").padStart(2, "0");
+  const BASE_DATE = `${today.getFullYear()}${(
+    today.getMonth() +
+    1 +
+    ""
+  ).padStart(2, "0")}${(today.getDate() + "").padStart(2, "0")}`;
+
+  const BASE_TIME = "1100";
+
+  console.log(
+    `${(today.getHours() + "").padStart(2, "0")}${(
+      today.getMinutes() + ""
+    ).padStart(2, "0")}`
+  );
 
   const url = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${SERVICE_KEY}&numOfRows=10&pageNo=1&dataType=JSON&base_date=${BASE_DATE}&base_time=${BASE_TIME}&nx=${X_VALUE}&ny=${Y_VALUE}`;
 
@@ -84,6 +136,7 @@ const onGeoSuccess = (geolocationPosition) => {
     .then((data) => {
       const result = data.response.body.items.item;
       console.log(result);
+      console.log(analyzeRawWeather(result));
     });
 
   //   초단기실황	T1H	기온	℃	10
