@@ -106,6 +106,11 @@ const getDatetimeForKWS = () => {
       BASE_MONTH: `${YEAR}${MONTH}${DATE}`,
       BAST_TIME: `${(HOUR - 1 + "").padStart(2, "0")}${MINUTE}`,
     };
+  } else if (DATE !== "00") {
+    return {
+      BASE_MONTH: `${YEAR}${MONTH}${(DATE - 1 + "").padStart(2, "0")}`,
+      BASE_TIME: `${(HOUR - 1 + "").padStart(2, "0")}${MINUTE}`,
+    };
   } else {
     return;
   }
