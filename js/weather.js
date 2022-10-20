@@ -89,6 +89,28 @@ const analyzeRawWeather = (resultArray) => {
   return { REH, T1H, WSD, RN1 };
 };
 
+const getDatetimeForKWS = () => {
+  const today = new Date();
+  const YEAR = today.getFullYear() + "";
+  const MONTH = (today.getMonth() + 1 + "").padStart(2, "0");
+  const DATE = (today.getDate() + "").padStart(2, "0");
+  const HOUR = (today.getHours() + "").padStart(2, "0");
+  const MINUTE = (today.getMinutes() + "").padStart(2, "0");
+  if (MINUTE > 40) {
+    return {
+      BASE_MONTH: `${YEAR}${MONTH}${DATE}`,
+      BAST_TIME: `${HOUR}${MINUTE}`,
+    };
+  } else if (HOUR !== "00") {
+    return {
+      BASE_MONTH: `${YEAR}${MONTH}${DATE}`,
+      BAST_TIME: `${(HOUR - 1 + "").padStart(2, "0")}${MINUTE}`,
+    };
+  } else {
+    return;
+  }
+};
+
 const onGeoSuccess = (geolocationPosition) => {
   const { latitude, longitude } = geolocationPosition.coords;
   const rs = dfs_xy_conv("toXY", latitude, longitude);
@@ -99,35 +121,8 @@ const onGeoSuccess = (geolocationPosition) => {
   const Y_VALUE = rs.y;
 
   const today = new Date();
-
-  const MINUTE = "00";
-  // 매시 데이터는 40분 이후에 조회가 가능하므로
-  // 안전하게 0~40분 이면 1시간 이전 데이터
-  // 0~40분이며 0시면 어제의 23시 데이터를 가져오기
-  const HOUR =
-    today.getMinutes() > 40
-      ? (today.getHours() + "").padStart(2, "0")
-      : today.getHours() == 0
-      ? "23"
-      : (today.getHours() - 1 + "").padStart(2, "0");
-
-  const DATE =
-    today.getMinutes() < 41 && today.getHours() == 0
-      ? (today.getDate() - 1 + "").padStart(2, "0")
-      : (today.getDate() + "").padStart(2, "0");
-  const BASE_DATE = `${today.getFullYear()}${(
-    today.getMonth() +
-    1 +
-    ""
-  ).padStart(2, "0")}${(today.getDate() + "").padStart(2, "0")}`;
-
-  const BASE_TIME = "1100";
-
-  console.log(
-    `${(today.getHours() + "").padStart(2, "0")}${(
-      today.getMinutes() + ""
-    ).padStart(2, "0")}`
-  );
+  const BASE_DATE = "20221020";
+  const BASE_TIME = "0600";
 
   const url = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${SERVICE_KEY}&numOfRows=10&pageNo=1&dataType=JSON&base_date=${BASE_DATE}&base_time=${BASE_TIME}&nx=${X_VALUE}&ny=${Y_VALUE}`;
 
