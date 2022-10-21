@@ -1,3 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
 .hidden {
   display: none;
+}
+
+.weather {
+  display: flex;
+}
+
+.date {
+  width: 500px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
 }
