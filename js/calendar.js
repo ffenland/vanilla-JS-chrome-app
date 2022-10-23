@@ -1,7 +1,12 @@
-const Days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+const calendarDate = document.querySelector(".calendar__date");
+const calendarToday = document.querySelector(".calendar__today span");
+
+// 달력 상단에 오늘날 표시
+const todayMonth = new Date().toLocaleString("eng", { month: "long" });
+
+calendarToday.innerText = todayMonth;
 
 const analyzeToday = (todayDate) => {
-  const date = todayDate.getDate();
   const month = todayDate.getMonth();
   const year = todayDate.getFullYear();
 
@@ -11,7 +16,7 @@ const analyzeToday = (todayDate) => {
   };
 };
 
-const paintCalendar = () => {
+const getCalendarArray = () => {
   const calendarArray = [];
   const today = new Date();
   const { firstDate, lastDate } = analyzeToday(today);
@@ -31,7 +36,23 @@ const paintCalendar = () => {
   for (let i = 1; i < 7 - lastDate.getDay(); i++) {
     calendarArray.push({ day: lastDate.getDay() + i, date: "" });
   }
-  // 길이가 7의 배수인 배열이 만들이지고 이걸 Grid로 넘겨버리기
+  // 길이가 7의 배수인 배열이 만들어졌어요.
+  return calendarArray;
 };
 
-paintCalendar();
+const paintCalendar = (calendarArray) => {
+  calendarArray.forEach((oneDay) => {
+    const span = document.createElement("span");
+    span.innerText = oneDay.date;
+    const div = document.createElement("div");
+    div.className = "calendar__date__one-day";
+    if (oneDay.date === new Date().getDate()) {
+      div.classList.add("calendar__date__today");
+    }
+    div.appendChild(span);
+    calendarDate.appendChild(div);
+  });
+};
+
+const calendarArray = getCalendarArray();
+paintCalendar(calendarArray);

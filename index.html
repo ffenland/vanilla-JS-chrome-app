@@ -8,73 +8,105 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <header></header>
+    <header>
+      <span>Welcome to Nomad To Do</span>
+    </header>
     <main>
-      <form id="login-form" class="hidden">
-        <input
-          type="text"
-          placeholder="이름을 입력해주세요"
-          required
-          maxlength="10"
-        />
-        <button>Log In</button>
-      </form>
-      <h2 id="welcome" class="hidden"></h2>
-      <h2 id="clock"></h2>
-      <form class="todo-form">
-        <input type="text" placeholder="할 일을 입력하세요" required />
-      </form>
-      <ul class="todo-list"></ul>
-      <div class="weather">
-        <span>어서오세요</span>
-        <span>으하하</span>
-        <span>네엄</span>
-        <span>으음머</span>
-      </div>
-      <div class="calendar">
-        <div class="title">
-          <span>SUN</span>
-          <span>MON</span>
-          <span>TUE</span>
-          <span>WED</span>
-          <span>THU</span>
-          <span>FRI</span>
-          <span>SAT</span>
+      <div class="current-information">
+        <div class="weather">
+          <span class="weather__address"></span>
+          <div class="weather__current">
+            <span class="weather__t1h"></span>
+            <span class="weather__reh"></span>
+            <span class="weather__wsd"></span>
+            <span class="weather__rn1"></span>
+          </div>
         </div>
-        <div class="date">
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
-          <div>hihi</div>
+        <div class="calendar">
+          <div class="calendar__today">
+            <span></span>
+          </div>
+          <div class="calendar__days">
+            <span>SUN</span>
+            <span>MON</span>
+            <span>TUE</span>
+            <span>WED</span>
+            <span>THU</span>
+            <span>FRI</span>
+            <span>SAT</span>
+          </div>
+          <div class="calendar__date"></div>
+        </div>
+        <div class="picture-clock">
+          <div class="clock">
+            <div class="clock__hours">
+              <span class="hours clock-number">02</span>
+            </div>
+            <span>:</span>
+            <div class="clock__minutes">
+              <span class="minutes clock-number"></span>
+            </div>
+            <span>:</span>
+            <div class="clock__second">
+              <span class="second clock-number" contenteditable="true"></span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="quote">
-        <span></span>
-        <span></span>
+      <div class="todo-screen">
+        <form class="todo-form">
+          <input
+            class="todo-form__todo-input"
+            type="text"
+            placeholder="할 일을 입력하세요"
+            required
+          />
+          <div class="todo-form__priority">
+            <span>우선순위</span>
+            <div class="todo-form__priority-input">
+              <input
+                type="radio"
+                id="red"
+                value="red"
+                name="priority"
+                checked
+              />
+              <input type="radio" id="orange" value="orange" name="priority" />
+              <input type="radio" id="yellow" value="yellow" name="priority" />
+              <input type="radio" id="green" value="green" name="priority" />
+              <input type="radio" id="blue" value="blue" name="priority" />
+            </div>
+          </div>
+          <input class="todo-form__submit" type="submit" value="등록" />
+        </form>
+        <div class="chat-screen">
+          <div class="todo-chat">
+            <div class="todo-chat__row">
+              <div class="todo-chat__row__review">
+                <span class="todo-chat__row__review__welcome">어서오세요</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
-    <footer></footer>
-    <script src="js/welcome.js"></script>
+    <footer>
+      <div class="right-screen"></div>
+      <div class="left-screen"></div>
+      <form class="login-form">
+        <input type="text" placeholder="Name" required maxlength="10" />
+      </form>
+    </footer>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a65f78e98d7ac0564a4596cca18df0a6&libraries=services"
+    ></script>
+    <script src="js/login.js"></script>
     <script src="js/clock.js"></script>
     <script src="js/quotes.js"></script>
     <script src="js/todo.js"></script>
     <script src="js/weather.js"></script>
     <script src="js/calendar.js"></script>
+    <script src="js/picture.js"></script>
   </body>
 </html>

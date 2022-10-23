@@ -1,0 +1,182 @@
+.todo-screen {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background-color: aliceblue;
+  margin: 20px 10px;
+  padding: 10px 20px;
+  border: 0.5px solid rgb(231, 231, 231);
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.todo-form {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-form__todo-input {
+  height: 35px;
+  width: 70%;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.todo-form__priority {
+  display: flex;
+  border-radius: 10px;
+  background-color: white;
+  padding: 5px 10px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.todo-form__priority:hover {
+  transform: scale(1.2);
+}
+
+.todo-form__priority-input {
+  display: flex;
+}
+
+.todo-form__priority-input input {
+  margin: 3px;
+  appearance: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+#red {
+  border: 2px solid red;
+}
+#red:checked {
+  border: 8px solid red;
+}
+#orange {
+  border: 2px solid orange;
+}
+#orange:checked {
+  border: 8px solid orange;
+}
+#yellow {
+  border: 2px solid yellow;
+}
+#yellow:checked {
+  border: 8px solid yellow;
+}
+#green {
+  border: 2px solid green;
+}
+#green:checked {
+  border: 8px solid green;
+}
+#blue {
+  border: 2px solid blue;
+}
+#blue:checked {
+  border: 8px solid blue;
+}
+
+.todo-form__submit {
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 10px;
+  margin-right: 10px;
+  padding: 8px 10px;
+  border: none;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.todo-form__submit:hover {
+  transform: scale(1.2);
+}
+
+.chat-screen {
+  height: 100%;
+  overflow-y: scroll;
+}
+.todo-chat {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 70px;
+  justify-content: flex-end;
+}
+.todo-chat__row {
+  display: flex;
+  margin-top: 10px;
+}
+.todo-chat__row-reverse {
+  display: flex;
+  justify-content: flex-end;
+}
+.todo-chat__row__set {
+  min-width: 250px;
+  background-color: #e1f8dc;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 10px;
+  display: flex;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+.todo-chat__row__set__tag {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: white;
+  margin-right: 5px;
+}
+.todo-chat__row__review {
+  min-width: 300px;
+  background-color: #fef8dd;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+.todo-chat__todos {
+  padding: 2px;
+}
+.todos__li {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+}
+.todos__detail {
+  display: flex;
+}
+.todos__delete {
+  background-color: transparent;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 2px 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.todos__delete:hover {
+  transform: scale(1.2);
+  background-color: red;
+  color: white;
+  border-color: transparent;
+}

@@ -90,7 +90,11 @@ const getCurrentDate = () => {
   }
 };
 
-const analyzeRawWeather = (resultArray) => {
+const paintWeather = (resultArray) => {
+  const weatherT1h = document.querySelector(".weather__t1h");
+  const weatherReh = document.querySelector(".weather__reh");
+  const weatherWsd = document.querySelector(".weather__wsd");
+  const weatherRn1 = document.querySelector(".weather__rn1");
   let REH = ""; // 상대습도
   let T1H = ""; // 기온
   let WSD = ""; // 풍속
@@ -98,26 +102,47 @@ const analyzeRawWeather = (resultArray) => {
   resultArray.forEach((value) => {
     switch (value.category) {
       case "T1H":
-        T1H = `${value.obsrValue} ℃`;
+        T1H = `기온 ${value.obsrValue} ℃`;
         break;
       case "REH":
-        REH = `${value.obsrValue} %`;
+        REH = `습도 ${value.obsrValue} %`;
         break;
       case "WSD":
-        WSD = `${value.obsrValue} m/s`;
+        WSD = `풍속 ${value.obsrValue} m/s`;
         break;
       case "RN1":
-        RN1 = `${value.obsrValue} mm`;
+        RN1 = `강수 ${value.obsrValue} mm`;
         break;
       default:
         break;
     }
   });
-  return { REH, T1H, WSD, RN1 };
+  weatherT1h.innerText = T1H;
+  weatherReh.innerText = REH;
+  weatherWsd.innerText = WSD;
+  weatherRn1.innerText = RN1;
 };
 
-const onGeoSuccess = (geolocationPosition) => {
+const paintAddress = (address) => {
+  const weatherAddress = document.querySelector(".weather__address");
+  weatherAddress.innerText = address;
+};
+
+const getLocation = (latitude, longitude) => {
+  const geocoder = new window.kakao.maps.services.Geocoder();
+  const callback = (result, status) => {
+    if (status === window.kakao.maps.services.Status.OK) {
+      const address = `${result[0].address.region_1depth_name} ${result[0].address.region_2depth_name} ${result[0].address.region_3depth_name}`;
+      paintAddress(address);
+    }
+  };
+  geocoder.coord2Address(longitude, latitude, callback);
+};
+
+const onGeoSuccess = async (geolocationPosition) => {
   const { latitude, longitude } = geolocationPosition.coords;
+  getLocation(latitude, longitude);
+
   const rs = dfs_xy_conv("toXY", latitude, longitude);
 
   const SERVICE_KEY =
@@ -138,8 +163,7 @@ const onGeoSuccess = (geolocationPosition) => {
     .then((response) => response.json())
     .then((data) => {
       const result = data.response.body.items.item;
-
-      console.log(analyzeRawWeather(result));
+      paintWeather(result);
     });
 
   //   초단기실황	T1H	기온	℃	10

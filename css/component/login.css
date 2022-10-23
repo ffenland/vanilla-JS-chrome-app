@@ -1,0 +1,43 @@
+.left-screen,
+.right-screen {
+  position: fixed;
+  top: 0;
+  background: linear-gradient(rgb(185, 185, 185), rgb(240, 240, 240));
+  height: 100%;
+  width: 50%;
+  z-index: 5;
+}
+.left-screen {
+  left: 0;
+}
+.right-screen {
+  right: 0;
+}
+
+.login-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: flex;
+  height: 90px;
+  z-index: 6;
+}
+
+.login-form input {
+  padding-left: 25px;
+  font-size: 28px;
+  width: 200px;
+}
+
+.left-hide {
+  transform: translateX(-120%);
+  transition: all 0.5s ease-in-out;
+}
+.right-hide {
+  transform: translateX(120%);
+  transition: all 0.5s ease-in-out;
+}
+.hide {
+  display: none;
+}

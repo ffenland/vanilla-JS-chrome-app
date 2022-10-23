@@ -1,17 +1,37 @@
+@import "./component/calendar.css";
+@import "./component//weather.css";
+@import "./component/clock.css";
+@import "./component/todo.css";
+@import "./component/picture.css";
+@import "./component/login.css";
 * {
   box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  height: 95vh;
+}
+header {
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+main {
+  display: flex;
+  height: 100%;
+  width: 1500px;
+  margin: 0 auto;
+}
+.current-information {
+  margin: 10px;
+  min-width: 500px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .hidden {
   display: none;
-}
-
-.weather {
-  display: flex;
-}
-
-.date {
-  width: 500px;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
 }

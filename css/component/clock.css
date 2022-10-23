@@ -1,0 +1,8 @@
+.clock {
+  display: flex;
+}
+
+.ttrr {
+  color: red;
+  transition: all 0.2s ease-in-out;
+}
